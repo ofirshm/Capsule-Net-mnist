@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt #for plotting
 from sklearn.metrics import confusion_matrix
 import itertools
 import seaborn as sns
+from utils import plot_log
 '''
 Code Credits
 capsule net for keras :
@@ -337,7 +338,7 @@ def Main():
     from sklearn.model_selection import train_test_split
     data_train = pd.read_csv('train.csv')
     #Data counter
-    sns.countplot(data_train['label'])
+    #sns.countplot(data_train['label'])
 
     X_full = data_train.iloc[:, 1:]
     y_full = data_train.iloc[:, :1]
@@ -351,9 +352,9 @@ def Main():
         train(model=model, data=((x_train, y_train), (x_test, y_test)),epochs=10,
               epoch_size_frac=0.5)
     else:
-        model.load_weights('weights-03.h5')
+        model.load_weights('trained_model.h5')
     y_pred= test(model=model, data=(x_test, y_test))
-
+    print('Test acc:', np.sum(np.argmax(y_pred, 1) == np.argmax(y_test, 1)) / y_test.shape[0])
     #Visualization for errors:
     # Look at confusion matrix
     # Note, this code is taken straight from the SKLEARN website, an nice way of viewing confusion matrix.
@@ -377,9 +378,12 @@ def Main():
     Y_pred_classes = np.argmax(y_pred_train, axis=1)
     # Convert validation observations to one hot vectors
     # compute the confusion matrix
-    confusion_mtx = confusion_matrix(np.argmax(y_train, axis=1), Y_pred_classes)
+    y_train_cl=np.argmax(y_train, axis=1)
+    confusion_mtx = confusion_matrix(y_train_cl, Y_pred_classes)
     # plot the confusion matrix
     plot_confusion_matrix(confusion_mtx, classes=range(10))
+    print('Train acc:', np.sum(Y_pred_classes == y_train_cl) / y_train_cl.shape[0])
+
     '''predict the test.csv
     data_test = pd.read_csv('../input/test.csv')
     data_test = data_test.values.reshape(-1, 28, 28, 1).astype('float32') / 255.
