@@ -292,20 +292,7 @@ def combine_images(generated_images):
 def test(model, data):
     x_test, y_test = data
     y_pred, x_recon = model.predict([x_test, y_test], batch_size=100)
-    print('-'*50)
-    print('Test acc:', np.sum(np.argmax(y_pred, 1) == np.argmax(y_test, 1))/y_test.shape[0])
 
-    import matplotlib.pyplot as plt
-    from PIL import Image
-
-    img = combine_images(np.concatenate([x_test[:50],x_recon[:50]]))
-    image = img * 255
-    Image.fromarray(image.astype(np.uint8)).save("real_and_recon.png")
-    print()
-    print('Reconstructed images are saved to ./real_and_recon.png')
-    print('-'*50)
-    plt.imshow(plt.imread("real_and_recon.png", ))
-    plt.show()
     return y_pred
 
 def plot_confusion_matrix(cm, classes,
@@ -378,7 +365,21 @@ def Main():
     confusion_mtx = confusion_matrix(np.argmax(y_test, axis=1), Y_pred_classes)
     # plot the confusion matrix
     plot_confusion_matrix(confusion_mtx, classes=range(10))
+#Train results
 
+    y_pred_train= test(model=model, data=(x_train, y_train))
+
+    #Visualization for errors:
+    # Look at confusion matrix
+    # Note, this code is taken straight from the SKLEARN website, an nice way of viewing confusion matrix.
+
+    # Convert predictions classes to one hot vectors
+    Y_pred_classes = np.argmax(y_pred_train, axis=1)
+    # Convert validation observations to one hot vectors
+    # compute the confusion matrix
+    confusion_mtx = confusion_matrix(np.argmax(y_train, axis=1), Y_pred_classes)
+    # plot the confusion matrix
+    plot_confusion_matrix(confusion_mtx, classes=range(10))
     '''predict the test.csv
     data_test = pd.read_csv('../input/test.csv')
     data_test = data_test.values.reshape(-1, 28, 28, 1).astype('float32') / 255.
