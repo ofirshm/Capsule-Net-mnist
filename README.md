@@ -4,7 +4,7 @@ Test(Unseen data) acc: 0.991666666667
 
 
 
-'Layer (type)            |        Output Shape    |     Param #   |  Connected to                     
+```Layer (type)            |        Output Shape    |     Param #   |  Connected to                     
 
 
 input_1 (InputLayer)      |      (None, 28, 28, 1) |   0                                            
@@ -37,4 +37,4 @@ out_recon (Reshape)     |        (None, 28, 28, 1)  |  0   |        dense_3[0][0
 Total params: 3,418,384
 Trainable params: 3,412,624
 Non-trainable params: 5,760
-'
+```
