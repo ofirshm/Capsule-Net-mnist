@@ -1,6 +1,6 @@
 "# Capsule-Net-mnist" Architecture by Offir Shmulevich
 Train acc: 0.991734693878
-Test(Unseen data) acc: 0.991666666667
+Test(Unseen data) acc: 0.991666666667				
 
 __________________________________________________________________________________________________
 Layer (type)                    Output Shape         Param #     Connected to                     
